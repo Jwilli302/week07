@@ -1,10 +1,9 @@
-package projectss;
+package projects;
 
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
-
 import projects.entity.Project;
 import projects.exception.DbException;
 import projects.service.ProjectService;
