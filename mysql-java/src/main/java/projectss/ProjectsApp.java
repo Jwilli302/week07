@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
-
 import projects.entity.Project;
 import projects.exception.DbException;
 import projects.service.ProjectService;
@@ -13,9 +12,12 @@ import projects.service.ProjectService;
 public class ProjectsApp {
 	private Scanner scanner = new Scanner(System.in); 
 	private ProjectService projectService = new ProjectService(); 
+	private Project curProject;
 	
 	private List <String> operations = List.of(
-			"1 Add a Project"
+			"1 Add a Project",
+			"2 List projects",
+			"3 Select a project"
 			);
 	
 	public static void main(String[] args) {
@@ -38,6 +40,14 @@ public class ProjectsApp {
 				createProject(); 
 				break;
 				
+				case 2:
+				listProjects();
+				break;
+				
+				case 3:
+				selectProject();
+				break;
+				
 				default: 
 				System.out.println("\n" + selection + "is not a valid selction. Try Again");
 				break;
@@ -49,6 +59,26 @@ public class ProjectsApp {
 			}
 		}
 	}
+	private void listProjects() {
+		List<Project> projects = projectService.fetchAllProjects();
+		
+		System.out.println("\nProjects");
+		
+		projects.forEach(project -> System.out.println(" " + project.getProjectId() + ": " +
+				project.getProjectName()));
+		
+	}
+
+	private void selectProject() {
+		listProjects();
+		Integer projectId = getIntInput("Enter a project ID to select a project");
+		
+		curProject = null;
+		
+		curProject = projectService.fetchProjectById(projectId);
+		
+	}
+
 	private void createProject() {
 		String projectName = getStringInput("Enter the project name");
 		BigDecimal estimatedHours = getDecimalInput("Enter the estimated hours");
@@ -121,6 +151,18 @@ public class ProjectsApp {
 		System.out.println("\nThese are the available selections. Press the Enter key to quit:");
 		
 		operations.forEach(line -> System.out.println(" " + line)); 
+		
+		if(Objects.isNull(curProject)) {
+			System.out.println("\nYou are not working with a project.");
+		}
+		
+		else {
+			System.out.println("/nYou are working with project: " + curProject);
+		}
+		
+		
+		
+		
 	}
 }
 

@@ -1,4 +1,4 @@
-package projects.service;
+package projects;
 
 import java.util.List;
 import java.util.NoSuchElementException;
